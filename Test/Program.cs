@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System;
+using System.Security.Cryptography;
 
 class Program
 {
@@ -32,18 +33,36 @@ class Program
     }
     static void Main()
     {
-        Parent p = new Parent("Daniel", "lastname", "ok");
-        Console.WriteLine(p.registrationDate);
-        Console.WriteLine(p.firstName);
-        Console.WriteLine(p.lastName);
-        Console.WriteLine(p.ok);
+        //Parent p = new Parent("Daniel", "lastname", "ok");
+        //Console.WriteLine(p.registrationDate);
+        //Console.WriteLine(p.firstName);
+        //Console.WriteLine(p.lastName);
+        //Console.WriteLine(p.ok);
 
-        GradeScale GradeValue = GradeScale.DB;
-        Console.WriteLine((byte)GradeValue);
+        //GradeScale GradeValue = GradeScale.DB;
+        //Console.WriteLine((byte)GradeValue);
 
 
-        List<int> l = new List<int>() { 4, 10, 12 };
-        Console.WriteLine(l.Average());
-        
+        //List<int> l = new List<int>() { 4, 10, 12 };
+        //Console.WriteLine(l.Average());
+        int sum = 0;
+        List<int> l2 = new List<int>() { 4, 10, 12, 1, 1, 1, 4, 10, 12, 1, 1,
+            1, 4, 10, 12, 1, 1, 1, 4, 10, 12, 1, 1, 1, 4, 10, 12, 1, 1, 1, 4,
+            10, 12, 1, 1, 1, 4, 10, 12, 1, 1, 1, 4, 10, 12, 1, 1, 1, 4, 10, 12,
+            1, 1, 1, 4, 10, 12, 1, 1, 1, 4, 10, 12, 1, 1, 1, 4, 10, 12, 1, 1,
+            1, 4, 10, 12, 1, 1, 1, 4, 10, 12, 1, 1, 1, 4, 10, 12, 1, 1, 1, 4,
+            10, 12, 1, 1, 1, 4, 10, 12, 1, 1, 1, 4, 10, 12, 1, 1, 1, 4, 10, 12,
+            1, 1, 1, 4, 10, 12, 1, 1, 1, 4, 10, 12, 1, 1, 1, 4, 10, 12, 1, 1, 1,
+        4, 10, 12, 1, 1, 1,4, 10, 12, 1, 1, 1,4, 10, 12, 1, 1, 1,
+        4, 10, 12, 1, 1, 1,4, 10, 12, 1, 1, 1,4, 10, 12, 1, 1, 1,
+        4, 10, 12, 1, 1, 1,4, 10, 12, 1, 1, 1,4, 10, 12, 1, 1, 1,4, 10, 12, 1, 1, 1,4, 10, 12, 1, 1, 1,
+        4, 10, 12, 1, 1, 1,4, 10, 12, 1, 1, 1,4, 10, 12, 1, 1, 1,4, 10, 12, 1, 1, 1,4, 10, 12, 1, 1, 1,
+        4, 10, 12, 1, 1, 1,4, 10, 12, 1, 1, 1,4, 10, 12, 1, 1, 1,4, 10, 12, 1, 1, 1,4, 10, 12, 1, 1, 1,};
+        Parallel.ForEach(l2, numbr =>
+        { 
+            sum += numbr; 
+        });
+        int sum2 = l2.Sum();
+        Console.WriteLine($"{sum} {sum2}");
     }
 }

@@ -10,9 +10,9 @@ namespace SchoolRegister.Model.DataModels
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public List<Student> Students { get; set; }
-        public List<SubjectGroup> SubjectGroups { get; set; }
-        public Group(int id, string name, List<Student> students, List<SubjectGroup> subjectGroups)
+        public IList<Student> Students { get; set; }
+        public IList<SubjectGroup> SubjectGroups { get; set; }
+        public Group(int id, string name, IList<Student> students, IList<SubjectGroup> subjectGroups)
         {
             Id = id;
             Name = name;
