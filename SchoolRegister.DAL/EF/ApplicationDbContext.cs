@@ -37,6 +37,58 @@ namespace SchoolRegister.DAL.EF
             .HasValue<Student>((int)RoleValue.Student)
             .HasValue<Parent>((int)RoleValue.Parent)
             .HasValue<Teacher>((int)RoleValue.Teacher);
+
+            modelBuilder.Entity<Group>() // Set Group primary key to Id property
+                .HasKey(g => g.Id);
+
+            modelBuilder.Entity<Group>() // Make Group Name property required
+                .Property(g => g.Name)
+                .IsRequired();
+
+            modelBuilder.Entity<Group>() 
+                .HasMany(g => g.Students)
+                .WithOne(s => s.Group)
+                .HasForeignKey(x => x.GroupId)
+                .IsRequired();
+
+            modelBuilder.Entity<SubjectGroup>()
+                .HasKey(sg => new { sg.GroupId, sg.SubjectId });
+
+            modelBuilder.Entity<SubjectGroup>()
+                .HasOne(sg => sg.Group)
+                .WithMany(g => g.SubjectGroups)
+                .HasForeignKey(sg => sg.GroupId);
+
+            modelBuilder.Entity<SubjectGroup>()
+                .HasOne(sg => sg.Subject)
+                .WithMany(s => s.SubjectGroups)
+                .HasForeignKey(sg => sg.SubjectId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Subject>()
+                .HasKey(s =>s.Id);
+
+            modelBuilder.Entity<Subject>()
+                .HasOne(s => s.Teacher)
+                .WithMany(t => t.Subjects)
+                .HasForeignKey(s => s.TeacherId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Grade>()
+                .HasKey(g => new { g.DateOfIssue, g.SubjectId, g.StudentId });
+
+            modelBuilder.Entity<Grade>()
+                .HasOne(g => g.Subject)
+                .WithMany(s => s.Grades)
+                .HasForeignKey(g => g.SubjectId);
+
+            modelBuilder.Entity<Grade>()
+                .HasOne(g => g.Student)
+                .WithMany(s => s.Grades)
+                .HasForeignKey(g => g.StudentId);
+
+
+
         }
     }
 }

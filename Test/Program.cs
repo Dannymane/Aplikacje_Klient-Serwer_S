@@ -2,6 +2,7 @@
 using System;
 using System.Security.Cryptography;
 
+
 class Program
 {
     internal class User : IdentityUser<int>
@@ -64,5 +65,6 @@ class Program
         });
         int sum2 = l2.Sum();
         Console.WriteLine($"{sum} {sum2}");
+
     }
 }

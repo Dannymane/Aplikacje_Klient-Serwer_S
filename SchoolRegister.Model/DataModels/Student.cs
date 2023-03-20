@@ -10,11 +10,11 @@ namespace SchoolRegister.Model.DataModels
 {
     public class Student : User
     {
-        public Group Group { get; set; }
+        public virtual Group Group { get; set; }
         public int? GroupId { get; set; }
-        public IList<Grade> Grades { get; set; } //here can be  pasted any collection which implement IList
+        public virtual IList<Grade> Grades { get; set; } //here can be  pasted any collection which implement IList
         // but this collections can call methods only from IList interface
-        public Parent Parent { get; set; }
+        public virtual Parent Parent { get; set; }
         public int? ParentId { get; set; }
         //public double AverageGrade
         //{
@@ -24,7 +24,7 @@ namespace SchoolRegister.Model.DataModels
         //        return sum;
         //    }
         //}
-        public double AverageGrade => Grades == null ? 0 : AverageGradePerSubject.Values.Average();
+        public double AverageGrade => Grades == null ? 0.0d : AverageGradePerSubject.Values.Average();
         public Dictionary<string, double> AverageGradePerSubject
         {
             get
@@ -75,12 +75,9 @@ namespace SchoolRegister.Model.DataModels
             }
 
         }
-        public Student(string firstName, string lastName, Group group, IList<Grade> grades, Parent parent, int? groupId = null, int? parentId = null) : base(firstName, lastName)
+        public Student(string firstName, string lastName, int? groupId = null, int? parentId = null) : base(firstName, lastName)
         {
-            Group = group;
             GroupId = groupId;
-            Grades = grades;
-            Parent = parent;
             ParentId = parentId;
         }
     }

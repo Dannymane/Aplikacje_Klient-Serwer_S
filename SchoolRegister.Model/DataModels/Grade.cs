@@ -10,18 +10,16 @@ namespace SchoolRegister.Model.DataModels
     {
         public DateTime DateOfIssue { get; set; }
         public GradeScale GradeValue { get; set; }
-        public Subject Subject { get; set; }
+        public virtual Subject Subject { get; set; }
         public int SubjectId { get; set; }
         public int StudentId { get; set; }
-        public Student Student { get; set; }
-        public Grade(DateTime dateOfIssue, GradeScale gradeValue, Subject subject, int subjectId, int studentId, Student student)
-        {
+        public virtual Student Student { get; set; }
+        public Grade(DateTime dateOfIssue, GradeScale gradeValue, int subjectId, int studentId) //do i need constructor? 
+        {//i cant initiate migration when constructor has a SUbject and Student argument
             DateOfIssue = dateOfIssue;
             GradeValue = gradeValue;
-            Subject = subject;
             SubjectId = subjectId;
             StudentId = studentId;
-            Student = student;
         }
     }
 }
