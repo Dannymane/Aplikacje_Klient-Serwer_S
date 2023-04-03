@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace SchoolRegister.Model.DataModels
 {
-    public class User : IdentityUser<int> //iternal class??? Then anouther assemblies dont have an access? ChatGPT: Yes
+    public class User : IdentityUser<int> 
     {   
         public string FirstName { get; set; }
         public string LastName { get; set; }
