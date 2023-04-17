@@ -86,9 +86,6 @@ namespace SchoolRegister.DAL.EF
                 .HasOne(g => g.Student)
                 .WithMany(s => s.Grades)
                 .HasForeignKey(g => g.StudentId);
-
-
-
         }
     }
 }

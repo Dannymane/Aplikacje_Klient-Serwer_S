@@ -13,7 +13,7 @@ public class SubjectVm
     public IList<GroupVm> Groups { get; set; } = null!;
     public string TeacherName { get; set; } = null!;
     public int? TeacherId { get; set; }
-    public IList<GradesVm> Grades { get; set; } = null!;
+    public IList<GradeVm> Grades { get; set; } = null!;
 
 }
 

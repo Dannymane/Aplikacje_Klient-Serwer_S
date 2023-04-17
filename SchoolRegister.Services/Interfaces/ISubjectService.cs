@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SchoolRegister.Services.Interfaces
 {
-    public class ISubjectService//interfejsy będące abstrakcją usług powinny się kończyć sufiksem ”Service”
+    public interface ISubjectService//interfejsy będące abstrakcją usług powinny się kończyć sufiksem ”Service”
     {
         SubjectVm AddOrUpdateSubject(AddOrUpdateSubjectVm addOrUpdateVm);
         SubjectVm GetSubject(Expression<Func<Subject, bool>> filterExpression);

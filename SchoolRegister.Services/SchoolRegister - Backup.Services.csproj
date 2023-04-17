@@ -14,6 +14,10 @@
 	  <PackageReference Include="AutoMapper" Version="12.0.0" />
 	  <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
 	  <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.9" />
+	  <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.3" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="ConcreteServices\" />
 	</ItemGroup>
 
 </Project>
