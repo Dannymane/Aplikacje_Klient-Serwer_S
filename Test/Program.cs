@@ -1,11 +1,21 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System;
 using System.ComponentModel.Design.Serialization;
+using System.Runtime.InteropServices;
 using System.Security.Cryptography;
-
+using System.Xml.Linq;
 
 class Program
 {
+
+    internal class Test
+    {
+        public string Name { get; set; }
+        public Test(string name = "no")
+        {
+            Name = name;
+        }
+    }
     internal class User : IdentityUser<int>
     {
         public string? firstName { get; set; }
@@ -60,13 +70,20 @@ class Program
         //4, 10, 12, 1, 1, 1,4, 10, 12, 1, 1, 1,4, 10, 12, 1, 1, 1,4, 10, 12, 1, 1, 1,4, 10, 12, 1, 1, 1,
         //4, 10, 12, 1, 1, 1,4, 10, 12, 1, 1, 1,4, 10, 12, 1, 1, 1,4, 10, 12, 1, 1, 1,4, 10, 12, 1, 1, 1,
         //4, 10, 12, 1, 1, 1,4, 10, 12, 1, 1, 1,4, 10, 12, 1, 1, 1,4, 10, 12, 1, 1, 1,4, 10, 12, 1, 1, 1,};
+        
+
         //Parallel.ForEach(l2, numbr =>
-        //{ 
+        //{
         //    sum += 1; //same rules as with parallelism in c++ (bad result)
         //});
 
         //int sum2 = l2.Sum();
         //Console.WriteLine($"{sum} {sum2}");
         Console.WriteLine(typeof(Program).Assembly);
+        Test t = new Test() { Name = "test" };
+        Console.WriteLine(t.Name);
+
+
     }
+
 }

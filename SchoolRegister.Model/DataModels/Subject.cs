@@ -15,7 +15,7 @@ namespace SchoolRegister.Model.DataModels
         public virtual Teacher Teacher {get; set;}
         public int? TeacherId { get; set; }
         public virtual IList<Grade> Grades { get; set; }
-        public Subject(int id, string name, string description, int? teacherId)
+        public Subject(int id = 0, string name = "", string description = "", int? teacherId =0)
         {
             Id = id;
             Name = name;

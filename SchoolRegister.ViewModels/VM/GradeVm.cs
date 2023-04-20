@@ -11,9 +11,9 @@ namespace SchoolRegister.ViewModels.VM
     {
         public DateTime DateOfIssue { get; set; }
         public GradeScale GradeValue { get; set; }
-        public virtual SubjectVm Subject { get; set; } = null!;
+        public string SubjectName { get; set; } = null!;
         public int SubjectId { get; set; }
         public int StudentId { get; set; }
-        public virtual StudentVm Student { get; set; } = null!;
+        public string StudentName { get; set; } = null!;
     }
 }

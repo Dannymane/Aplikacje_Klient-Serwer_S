@@ -1,5 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 	<ItemGroup>
+	  <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.0" />
+	</ItemGroup>
+	<ItemGroup>
 		<ProjectReference Include="..\SchoolRegister.Model\SchoolRegister.Model.csproj" />
 	</ItemGroup>
   <PropertyGroup>

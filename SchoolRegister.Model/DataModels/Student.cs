@@ -75,7 +75,7 @@ namespace SchoolRegister.Model.DataModels
             }
 
         }
-        public Student(string firstName, string lastName, int? groupId = null, int? parentId = null) : base(firstName, lastName)
+        public Student(string firstName = "", string lastName = "", int? groupId = null, int? parentId = null) : base(firstName, lastName)
         {
             GroupId = groupId;
             ParentId = parentId;

@@ -9,12 +9,11 @@ namespace SchoolRegister.Model.DataModels
     public class Teacher : User
     {
 
-
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public virtual IList<Subject> Subjects { get; set; }
+        public string FirstName { get; set; } 
+        public string LastName { get; set; } 
+        public virtual IList<Subject> Subjects { get; set; } 
         public string Title { get; set; }
-        public Teacher(string firstName, string lastName) : base(firstName, lastName)
+        public Teacher(string firstName = "", string lastName = "") : base(firstName, lastName)
         {
         }
 

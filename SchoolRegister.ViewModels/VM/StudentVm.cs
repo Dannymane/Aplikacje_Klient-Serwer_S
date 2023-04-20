@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SchoolRegister.ViewModels.VM
 {
-    public class StudentVm
+    public class StudentVm : UserVm
     {
         public  string GroupName { get; set; } = null!;
         public int? GroupId { get; set; }

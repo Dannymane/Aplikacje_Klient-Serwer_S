@@ -13,7 +13,7 @@ namespace SchoolRegister.Model.DataModels
         public int SubjectId { get; set; } 
         public virtual Group Group { get; set; }
         public int GroupId { get; set; }
-        public SubjectGroup(int subjectId, int groupId)
+        public SubjectGroup(int subjectId = 0, int groupId = 0)
         {
             SubjectId = subjectId;
             GroupId = groupId;

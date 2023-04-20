@@ -9,7 +9,7 @@ namespace SchoolRegister.Model.DataModels
     public class Parent : User
     {
         public virtual IList<Student> Students { get; set; }
-        public Parent(string firstName, string lastName) : base(firstName, lastName)
+        public Parent(string firstName = "", string lastName = "") : base(firstName, lastName)
         {
 
         }
