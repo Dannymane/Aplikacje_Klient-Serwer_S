@@ -18,9 +18,12 @@ namespace SchoolRegister.Services.ConcreteServices
     public class TeacherService : BaseService, ITeacherService
     {
         private UserManager<User> _userManager;
-        public TeacherService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger) :
+
+
+        public TeacherService(ApplicationDbContext dbContext, IMapper mapper, ILogger logger, UserManager<User> userManager) :
             base(dbContext, mapper, logger)
         {
+            _userManager = userManager;
         }
         public TeacherVm GetTeacher(Expression<Func<Teacher, bool>> filterExpression)
         {
@@ -28,15 +31,9 @@ namespace SchoolRegister.Services.ConcreteServices
             {
                 if (filterExpression == null)
                     throw new ArgumentNullException($"FilterExpression is null");
-                var teacher = DbContext.Users
-                    .Where(u => u.UserType == (int)RoleValue.Teacher) // filter only Teacher users
-                    .OfType<Teacher>() // cast to Teacher type
-                    .FirstOrDefault(filterExpression); // apply the filter expression
-                var teacherEntity = DbContext.Teachers.FirstOrDefault(filterExpression);
-                var teacherVm = Mapper.Map<TeacherVm>(teacherEntity);
-                DbContext.Users
-
-                return teacherVm;
+                var TeacherEntity = DbContext.Users.OfType<Teacher>().FirstOrDefault(filterExpression);
+                var TeacherVm = Mapper.Map<TeacherVm>(TeacherEntity);
+                return TeacherVm;
             }
             catch (Exception ex)
             {
@@ -44,11 +41,11 @@ namespace SchoolRegister.Services.ConcreteServices
                 throw;
             }
         }
-        public IEnumerable<TeacherVm> GetTeachers(Expression<Func<Teacher, bool>> filterxpression = null)
+        public IEnumerable<TeacherVm> GetTeachers(Expression<Func<Teacher, bool>>? filterxpression = null)
         {
             try
             {
-                var teacherEntities = DbContext.Teachers.Where(filterxpression ?? (x => true));
+                var teacherEntities = DbContext.Users.OfType<Teacher>().Where(filterxpression ?? (x => true));
                 var teacherVms = Mapper.Map<IEnumerable<TeacherVm>>(teacherEntities);
                 return teacherVms;
             }
@@ -64,11 +61,12 @@ namespace SchoolRegister.Services.ConcreteServices
             {
                 if (getTeachersGroups == null)
                     throw new ArgumentNullException($"View model parameter is null");
-                var teacherEntity = DbContext.Teachers.FirstOrDefault(x => x.Id == getTeachersGroups.TeacherId);
+                var teacherEntity = DbContext.Users.OfType<Teacher>()
+                    .FirstOrDefault(x => x.Id == getTeachersGroups.TeacherId);
                 if (teacherEntity == null)
                     throw new ArgumentException($"Teacher with id {getTeachersGroups.TeacherId} does not exist");
-                var groupVms = Mapper.Map<IEnumerable<GroupVm>>(teacherEntity.Groups);
-                return groupVms;
+                getTeachersGroups = Mapper.Map<TeachersGroupsVm>(teacherEntity);
+                return getTeachersGroups.Groups;
             }
             catch (Exception ex)
             {
@@ -76,7 +74,5 @@ namespace SchoolRegister.Services.ConcreteServices
                 throw;
             }
         }
-    }
-        {
     }
 }

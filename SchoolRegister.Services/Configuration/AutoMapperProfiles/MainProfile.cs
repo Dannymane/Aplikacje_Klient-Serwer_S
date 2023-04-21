@@ -38,7 +38,7 @@ public class MainProfile : Profile
             .ForMember(dest => dest.Grades, x => x.MapFrom(src => src.Grades));
 
         CreateMap<Teacher, TeacherVm>()
-            .ForMember(dest => dest.Subjects, x => x.MapFrom(src => src.Subjects));
+        .ForMember(dest => dest.Subjects, x => x.MapFrom(src => src.Subjects));
 
         CreateMap<TeacherVm, Teacher>()
             .ForMember(dest => dest.Subjects, x => x.MapFrom(src => src.Subjects));
@@ -60,6 +60,7 @@ public class MainProfile : Profile
             .ForMember(dest => dest.Groups,     //SelectMany returns a single collection of all groups
             x => x.MapFrom(src => src.Subjects.SelectMany(s => s.SubjectGroups.Select(g => g.Group))));
 
+        CreateMap<AddGradeToStudentVm, GradeVm>();
 
     }
 }

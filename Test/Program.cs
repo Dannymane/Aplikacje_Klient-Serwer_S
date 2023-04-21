@@ -81,7 +81,10 @@ class Program
         //Console.WriteLine($"{sum} {sum2}");
         Console.WriteLine(typeof(Program).Assembly);
         Test t = new Test() { Name = "test" };
-        Console.WriteLine(t.Name);
+        Console.WriteLine(t.Name ?? "Ok");
+        Object n = null;
+        Console.WriteLine(n ?? "Ok");
+
 
 
     }

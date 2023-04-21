@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SchoolRegister.Services.Interfaces
 {
-    internal interface ITeacherService
+    public interface ITeacherService
     {
         TeacherVm GetTeacher(Expression<Func<Teacher, bool>> filterPredicate);
         IEnumerable<TeacherVm> GetTeachers(Expression<Func<Teacher, bool>> filterPredicate = null);
