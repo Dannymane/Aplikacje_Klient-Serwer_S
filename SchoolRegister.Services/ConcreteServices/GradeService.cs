@@ -24,62 +24,75 @@ namespace SchoolRegister.Services.ConcreteServices
 
         public GradeVm AddGradeToStudent(AddGradeToStudentVm addGradeToStudentVm)
         {
-            if(addGradeToStudentVm == null)
-                throw new ArgumentNullException($"AddGradeToStudentVm is null");
+            try
+            {
+                if (addGradeToStudentVm == null)
+                    throw new ArgumentNullException($"AddGradeToStudentVm is null");
 
-            var userEntity = DbContext.Users.FirstOrDefault(x => x.Id == addGradeToStudentVm.TeacherId);
-            if(userEntity == null)
-                throw new ArgumentNullException($"There is no user(teacher) with id {addGradeToStudentVm.TeacherId}");
+                var userEntity = DbContext.Users.FirstOrDefault(x => x.Id == addGradeToStudentVm.TeacherId);
+                if (userEntity == null)
+                    throw new ArgumentNullException($"There is no user(teacher) with id {addGradeToStudentVm.TeacherId}");
 
-            var teacherEntity = DbContext.Users.FirstOrDefault(x => x.Id == addGradeToStudentVm.TeacherId);
-            if(!_userManager.IsInRoleAsync(teacherEntity!, "Teacher").Result)
-                throw new ArgumentNullException($"Olny teacher can estimate student");
+                var teacherEntity = DbContext.Users.FirstOrDefault(x => x.Id == addGradeToStudentVm.TeacherId);
+                if (!_userManager.IsInRoleAsync(teacherEntity!, "Teacher").Result)
+                    throw new ArgumentNullException($"Olny teacher can estimate student");
 
-            var studentEntity = DbContext.Users.OfType<Student>().FirstOrDefault(x => x.Id == addGradeToStudentVm.StudentId);
-            if (studentEntity == null)
-                throw new ArgumentNullException($"There is no student with id {addGradeToStudentVm.StudentId}");
-            
-            var gradeEntity = Mapper.Map<Grade>(addGradeToStudentVm);
-            DbContext.Grades.Add(gradeEntity);
-            DbContext.SaveChanges();
+                var studentEntity = DbContext.Users.OfType<Student>().FirstOrDefault(x => x.Id == addGradeToStudentVm.StudentId);
+                if (studentEntity == null)
+                    throw new ArgumentNullException($"There is no student with id {addGradeToStudentVm.StudentId}");
 
-            var gradeVm = Mapper.Map<GradeVm>(addGradeToStudentVm);
-            return gradeVm;
+                var gradeEntity = Mapper.Map<Grade>(addGradeToStudentVm);
+                DbContext.Grades.Add(gradeEntity);
+                DbContext.SaveChanges();
+
+                var gradeVm = Mapper.Map<GradeVm>(addGradeToStudentVm);
+                return gradeVm;
+            } catch (Exception ex)
+            {
+                Logger.LogError(ex, ex.Message);
+                throw;
+            }
         }
 
         public GradesReportVm GetGradesReportForStudent(GetGradesReportVm getGradesVm)
         {
-            //unnecessary check - GetGradesReportVm has [Required] attributes
-            if (getGradesVm == null)
-                throw new ArgumentNullException($"View model parameter is null");
-
-            var studentEntity = DbContext.Users.OfType<Student>().FirstOrDefault(x => x.Id == getGradesVm.StudentId);
-            if (studentEntity == null)
-                throw new ArgumentNullException($"There is no student with id {getGradesVm.StudentId}");
-
-            var getterUserEntity = DbContext.Users.FirstOrDefault(x => x.Id == getGradesVm.GetterUserId);
-            if(getterUserEntity == null)
-                throw new ArgumentNullException($"There is no user(getter) with id {getGradesVm.GetterUserId}");
-            
-            var grades = DbContext.Grades.Where(x => x.StudentId == getGradesVm.StudentId).ToList();
-            var gradesVms = Mapper.Map<IEnumerable<GradeVm>>(grades);
-            var gradesReportVm = new GradesReportVm
+            try
             {
-                Grades = gradesVms,
-                StudentId = getGradesVm.StudentId,
-                StudentFullName = $"{studentEntity.FirstName} {studentEntity.LastName}"
-            };
-            if(getGradesVm.StudentId == getGradesVm.GetterUserId)
-                return gradesReportVm;
+                if (getGradesVm == null)
+                    throw new ArgumentNullException($"View model parameter is null");
 
-            if(_userManager.IsInRoleAsync(getterUserEntity, "teacher").Result)
-                return gradesReportVm;
+                var studentEntity = DbContext.Users.OfType<Student>().FirstOrDefault(x => x.Id == getGradesVm.StudentId);
+                if (studentEntity == null)
+                    throw new ArgumentNullException($"There is no student with id {getGradesVm.StudentId}");
 
-            if(studentEntity.ParentId == getGradesVm.GetterUserId)
-                return gradesReportVm;
+                var getterUserEntity = DbContext.Users.FirstOrDefault(x => x.Id == getGradesVm.GetterUserId);
+                if (getterUserEntity == null)
+                    throw new ArgumentNullException($"There is no user(getter) with id {getGradesVm.GetterUserId}");
 
-            throw new UnauthorizedAccessException("This user doesn't have permission to see student's grades");
+                var grades = DbContext.Grades.Where(x => x.StudentId == getGradesVm.StudentId).ToList();
+                var gradesVms = Mapper.Map<IEnumerable<GradeVm>>(grades);
+                var gradesReportVm = new GradesReportVm
+                {
+                    Grades = gradesVms,
+                    StudentId = getGradesVm.StudentId,
+                    StudentFullName = $"{studentEntity.FirstName} {studentEntity.LastName}"
+                };
+                if (getGradesVm.StudentId == getGradesVm.GetterUserId)
+                    return gradesReportVm;
 
-        }
+                if (_userManager.IsInRoleAsync(getterUserEntity, "teacher").Result)
+                    return gradesReportVm;
+
+                if (studentEntity.ParentId == getGradesVm.GetterUserId)
+                    return gradesReportVm;
+
+                throw new UnauthorizedAccessException("This user doesn't have permission to see student's grades");
+            } catch (Exception ex)
+            {
+                Logger.LogError(ex, ex.Message);
+                throw;
+            }
+
+            }
     }
 }
