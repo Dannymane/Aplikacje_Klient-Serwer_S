@@ -27,6 +27,7 @@ namespace SchoolRegister.Services.ConcreteServices
             {
                 if (addOrUpdateVm == null)
                     throw new ArgumentNullException($"View model parameter is null");
+
                 var subjectEntity = Mapper.Map<Subject>(addOrUpdateVm); //AddOrUpdateSubjectVm -> Subject
                 if (!addOrUpdateVm.Id.HasValue || addOrUpdateVm.Id == 0)
                     DbContext.Subjects.Add(subjectEntity);

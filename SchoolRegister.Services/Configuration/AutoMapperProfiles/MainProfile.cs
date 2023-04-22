@@ -61,6 +61,8 @@ public class MainProfile : Profile
             x => x.MapFrom(src => src.Subjects.SelectMany(s => s.SubjectGroups.Select(g => g.Group))));
 
         CreateMap<AddGradeToStudentVm, GradeVm>();
+        CreateMap<AddGradeToStudentVm, Grade>();
+
 
     }
 }

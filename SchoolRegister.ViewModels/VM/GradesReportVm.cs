@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,9 +9,10 @@ namespace SchoolRegister.ViewModels.VM
 {
     public class GradesReportVm
     {
+        [Required]
         public string StudentFullName { get; set; } = null!;
-
-        public int Studentid { get; set; }
+        [Required]
+        public int StudentId { get; set; }
         public IEnumerable<GradeVm>? Grades { get; set; }
     }
 }

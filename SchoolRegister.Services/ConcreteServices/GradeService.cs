@@ -26,17 +26,60 @@ namespace SchoolRegister.Services.ConcreteServices
         {
             if(addGradeToStudentVm == null)
                 throw new ArgumentNullException($"AddGradeToStudentVm is null");
+
+            var userEntity = DbContext.Users.FirstOrDefault(x => x.Id == addGradeToStudentVm.TeacherId);
+            if(userEntity == null)
+                throw new ArgumentNullException($"There is no user(teacher) with id {addGradeToStudentVm.TeacherId}");
+
             var teacherEntity = DbContext.Users.FirstOrDefault(x => x.Id == addGradeToStudentVm.TeacherId);
-            _userManager.IsInRoleAsync(teacherEntity, "Teacher");
-            //if(addGradeToStudentVm.TeacherId)
+            if(!_userManager.IsInRoleAsync(teacherEntity, "Teacher").Result)
+                throw new ArgumentNullException($"Olny teacher can estimate student");
+
+            var studentEntity = DbContext.Users.OfType<Student>().FirstOrDefault(x => x.Id == addGradeToStudentVm.StudentId);
+            if (studentEntity == null)
+                throw new ArgumentNullException($"There is no student with id {addGradeToStudentVm.StudentId}");
+            
             var gradeEntity = Mapper.Map<Grade>(addGradeToStudentVm);
             DbContext.Grades.Add(gradeEntity);
+            DbContext.SaveChanges();
 
+            var gradeVm = Mapper.Map<GradeVm>(addGradeToStudentVm);
+            return gradeVm;
         }
 
         public GradesReportVm GetGradesReportForStudent(GetGradesReportVm getGradesVm)
         {
-            throw new NotImplementedException();
+            //unnecessary check - GetGradesReportVm has [Required] attributes
+            if (getGradesVm == null)
+                throw new ArgumentNullException($"View model parameter is null");
+
+            var studentEntity = DbContext.Users.OfType<Student>().FirstOrDefault(x => x.Id == getGradesVm.StudentId);
+            if (studentEntity == null)
+                throw new ArgumentNullException($"There is no student with id {getGradesVm.StudentId}");
+
+            var getterUserEntity = DbContext.Users.FirstOrDefault(x => x.Id == getGradesVm.GetterUserId);
+            if(getterUserEntity == null)
+                throw new ArgumentNullException($"There is no user(getter) with id {getGradesVm.GetterUserId}");
+            
+            var grades = DbContext.Grades.Where(x => x.StudentId == getGradesVm.StudentId).ToList();
+            var gradesVms = Mapper.Map<IEnumerable<GradeVm>>(grades);
+            var gradesReportVm = new GradesReportVm
+            {
+                Grades = gradesVms,
+                StudentId = getGradesVm.StudentId,
+                StudentFullName = $"{studentEntity.FirstName} {studentEntity.LastName}"
+            };
+            if(getGradesVm.StudentId == getGradesVm.GetterUserId)
+                return gradesReportVm;
+
+            if(_userManager.IsInRoleAsync(getterUserEntity, "teacher").Result)
+                return gradesReportVm;
+
+            if(studentEntity.ParentId == getGradesVm.GetterUserId)
+                return gradesReportVm;
+
+            throw new UnauthorizedAccessException("This user doesn't have permission to see student's grades");
+
         }
     }
 }
