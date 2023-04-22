@@ -32,7 +32,7 @@ namespace SchoolRegister.Services.ConcreteServices
                 throw new ArgumentNullException($"There is no user(teacher) with id {addGradeToStudentVm.TeacherId}");
 
             var teacherEntity = DbContext.Users.FirstOrDefault(x => x.Id == addGradeToStudentVm.TeacherId);
-            if(!_userManager.IsInRoleAsync(teacherEntity, "Teacher").Result)
+            if(!_userManager.IsInRoleAsync(teacherEntity!, "Teacher").Result)
                 throw new ArgumentNullException($"Olny teacher can estimate student");
 
             var studentEntity = DbContext.Users.OfType<Student>().FirstOrDefault(x => x.Id == addGradeToStudentVm.StudentId);
