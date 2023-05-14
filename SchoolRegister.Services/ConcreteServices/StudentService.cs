@@ -47,12 +47,12 @@ namespace SchoolRegister.Services.ConcreteServices
         {
             try
             { 
-                var studentEntities = DbContext.Users.OfType<Student>().AsQueryable();
-                if (studentEntities == null)
+                var studentEntitiesQuery = DbContext.Users.OfType<Student>().AsQueryable();
+                if (studentEntitiesQuery == null)
                     throw new ArgumentNullException("Students not found");
                 if (filterExpression != null)
-                    studentEntities = studentEntities.Where(filterExpression);
-
+                    studentEntitiesQuery = studentEntitiesQuery.Where(filterExpression);
+                var studentEntities = await studentEntitiesQuery.ToListAsync();
                 var studentVms = Mapper.Map<IEnumerable<StudentVm>>(studentEntities);//await studentEntities.ToListAsync()
                 return studentVms;
             }

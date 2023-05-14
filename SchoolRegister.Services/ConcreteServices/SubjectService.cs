@@ -25,24 +25,24 @@ namespace SchoolRegister.Services.ConcreteServices
         {
             try
             {
-                if (addOrUpdateVm == null)
-                    throw new ArgumentNullException($"View model parameter is null");
+               if (addOrUpdateVm == null)   
+                  throw new ArgumentNullException($"View model parameter is null");
 
-                var subjectEntity = Mapper.Map<Subject>(addOrUpdateVm); //AddOrUpdateSubjectVm -> Subject
-                if (!addOrUpdateVm.Id.HasValue || addOrUpdateVm.Id == 0)
-                    DbContext.Subjects.Add(subjectEntity);
-                else
-                    DbContext.Subjects.Update(subjectEntity);
-                DbContext.SaveChanges();//od tego momentu subjectEntity ma id(jeśli nie miał)
-                var subjectVm = Mapper.Map<SubjectVm>(subjectEntity); //Subject -> SubjectVm
-                //pytanie: w SubjectVm wskazaliśmy, że niektóre pola = null!, natomiast w linijce wyżej 
-                //tworzy się obiekt zmapowany z obiektu z nie wszystkimi polami
-                return subjectVm;
+               var subjectEntity = Mapper.Map<Subject>(addOrUpdateVm); //AddOrUpdateSubjectVm -> Subject
+               if (!addOrUpdateVm.Id.HasValue || addOrUpdateVm.Id == 0)
+                  DbContext.Subjects.Add(subjectEntity);
+               else
+                  DbContext.Subjects.Update(subjectEntity);
+               DbContext.SaveChanges();//od tego momentu subjectEntity ma id(jeśli nie miał)
+               var subjectVm = Mapper.Map<SubjectVm>(subjectEntity); //Subject -> SubjectVm
+                                                                     //pytanie: w SubjectVm wskazaliśmy, że niektóre pola = null!, natomiast w linijce wyżej 
+                                                                     //tworzy się obiekt zmapowany z obiektu z nie wszystkimi polami
+               return subjectVm;
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex, ex.Message);
-                throw;
+                  Logger.LogError(ex, ex.Message);
+                  throw;
             }
         }
 
@@ -63,7 +63,7 @@ namespace SchoolRegister.Services.ConcreteServices
             }
         }
 
-        public IEnumerable<SubjectVm> GetSubjects(Expression<Func<Subject, bool>> filterExpression = null)
+        public IEnumerable<SubjectVm> GetSubjects(Expression<Func<Subject, bool>>? filterExpression = null)
         {
             try
             {
