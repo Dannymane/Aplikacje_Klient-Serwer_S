@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 using SchoolRegister.DAL.EF;
 using SchoolRegister.Model.DataModels;
 using SchoolRegister.Services.ConcreteServices;
@@ -22,11 +23,27 @@ builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfi
 builder.Services.AddTransient(typeof(ILogger), typeof(Logger<Program>));
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddScoped<IStringLocalizer, StringLocalizer<BaseController>>();
 builder.Services.AddScoped<ISubjectService, SubjectService>();
 builder.Services.AddScoped<IGradeService, GradeService>();
 builder.Services.AddScoped<IGroupService, GroupService>();
 builder.Services.AddScoped<IStudentService, StudentService>();
 builder.Services.AddScoped<ITeacherService, TeacherService>();
+var supportedCultures = new[] { "en", "pl-PL" };
+builder.Services.Configure<RequestLocalizationOptions>(options => {
+    options.SetDefaultCulture(supportedCultures[0])
+    .AddSupportedCultures(supportedCultures)
+    .AddSupportedUICultures(supportedCultures);
+});
+builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+builder.Services.AddControllersWithViews()
+.AddRazorRuntimeCompilation()
+.AddViewLocalization()
+.AddDataAnnotationsLocalization();
+builder.Services.AddRazorPages()
+.AddRazorRuntimeCompilation()
+.AddViewLocalization()
+.AddDataAnnotationsLocalization();
 
 var app = builder.Build();
 
@@ -48,6 +65,12 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
+
+var localizationOption = new RequestLocalizationOptions()
+.SetDefaultCulture(supportedCultures[0])
+.AddSupportedCultures(supportedCultures)
+.AddSupportedUICultures(supportedCultures);
+app.UseRequestLocalization(localizationOption);
 
 app.MapControllerRoute(
     name: "default",

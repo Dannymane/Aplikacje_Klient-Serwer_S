@@ -35,3 +35,15 @@
     }
   }
 }
+//{
+//  "profiles": {
+//    "SchoolRegister.Web": {
+//      "commandName": "Project",
+//      "launchBrowser": true,
+//      "environmentVariables": {
+//        "ASPNETCORE_ENVIRONMENT": "Development"
+//      },
+//      "applicationUrl": "https://localhost:1332;http://localhost:1333"
+//    }
+//  }
+//}

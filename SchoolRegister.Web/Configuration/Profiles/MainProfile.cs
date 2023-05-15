@@ -50,8 +50,8 @@ public class MainProfile : Profile
             x => x.MapFrom(src => src.Student == null ? null : $"{src.Student.FirstName} {src.Student.FirstName}"));
 
         CreateMap<GradeVm, Grade>();
-            //.ForMember(dest => dest.Subject, x => x.Ignore())   not needed - there are no Subject or
-            //.ForMember(dest => dest.Student, x => x.Ignore());  Student property in GradeVm
+        //.ForMember(dest => dest.Subject, x => x.Ignore())   not needed - there are no Subject or
+        //.ForMember(dest => dest.Student, x => x.Ignore());  Student property in GradeVm
 
         CreateMap<Parent, ParentVm>()
             .ForMember(dest => dest.Students, x => x.MapFrom(src => src.Students));
