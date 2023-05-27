@@ -78,7 +78,7 @@ namespace SchoolRegister.Services.ConcreteServices
                     StudentFullName = $"{studentEntity.FirstName} {studentEntity.LastName}"
                 };
                 if (getGradesVm.StudentId == getGradesVm.GetterUserId)
-                    return gradesReportVm;
+                    return gradesReportVm   ;
 
                 if (_userManager.IsInRoleAsync(getterUserEntity, "teacher").Result)
                     return gradesReportVm;

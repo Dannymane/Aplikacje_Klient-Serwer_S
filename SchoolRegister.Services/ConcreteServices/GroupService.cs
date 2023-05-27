@@ -261,10 +261,10 @@ namespace SchoolRegister.Services.ConcreteServices
         {
             try
             {
-                var groupEntities = DbContext.Groups.AsQueryable();
+                var groupEntitiesQuery = DbContext.Groups.AsQueryable();
                 if (filterExpression != null)
-                    groupEntities = groupEntities.Where(filterExpression);
-                var groupsVms = Mapper.Map<IEnumerable<GroupVm>>(await groupEntities.ToListAsync());
+                    groupEntitiesQuery = groupEntitiesQuery.Where(filterExpression);
+                var groupsVms = Mapper.Map<IEnumerable<GroupVm>>(await groupEntitiesQuery.ToListAsync());
 
                 return groupsVms;
             }

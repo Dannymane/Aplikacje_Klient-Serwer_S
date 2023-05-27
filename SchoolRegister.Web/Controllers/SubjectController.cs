@@ -25,17 +25,17 @@ public class SubjectController : BaseController
         _teacherService = teacherService;
         _userManager = userManager;
     }
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        var user = _userManager.GetUserAsync(User).Result;
-        if (_userManager.IsInRoleAsync(user, "Admin").Result)
+        var user = await _userManager.GetUserAsync(User);
+        if (await _userManager.IsInRoleAsync(user, "Admin"))
             return View(_subjectService.GetSubjects());
-        else if (_userManager.IsInRoleAsync(user, "Teacher").Result && user is Teacher teacher)
+        else if (await _userManager.IsInRoleAsync(user, "Teacher") && user is Teacher teacher)
         {
             return View(_subjectService.GetSubjects(x => x.TeacherId == teacher.Id));
         }
-        else if (_userManager.IsInRoleAsync(user, "Student").Result)
-            return RedirectToAction("Details", "Student", new { studentId = user.Id });
+        //else if (await _userManager.IsInRoleAsync(user, "Student"))
+        //    return RedirectToAction("Details", "Student", new { studentId = user.Id });
         else
             return View("Error");
     }
@@ -57,6 +57,7 @@ public class SubjectController : BaseController
         ViewBag.ActionType = "Add";
         return View();
     }
+    //default attribute is [HttpGet]
     public IActionResult Details(int id)
     {
         var subjectVm = _subjectService.GetSubject(x => x.Id == id);

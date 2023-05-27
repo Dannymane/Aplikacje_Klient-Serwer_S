@@ -53,7 +53,7 @@ namespace SchoolRegister.Services.ConcreteServices
                 if (filterExpression != null)
                     studentEntitiesQuery = studentEntitiesQuery.Where(filterExpression);
                 var studentEntities = await studentEntitiesQuery.ToListAsync();
-                var studentVms = Mapper.Map<IEnumerable<StudentVm>>(studentEntities);//await studentEntities.ToListAsync()
+                var studentVms = Mapper.Map<IEnumerable<StudentVm>>(studentEntities);
                 return studentVms;
             }
             catch (Exception ex)
