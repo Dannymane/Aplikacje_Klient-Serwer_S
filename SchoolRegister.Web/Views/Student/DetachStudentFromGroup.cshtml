@@ -1,0 +1,36 @@
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@model SchoolRegister.ViewModels.VM.AttachDetachStudentToGroupVm
+
+@{
+    ViewData["Title"] = Localizer["Detach student from group"];
+}   
+<h2>@ViewData["Title"]</h2>
+<h5>@Localizer["Detach confirmation"]</h5>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Localizer["Student"]:
+        </dt>
+        <dd class="col-sm-10">
+            @ViewBag.StudentName
+        </dd>
+    </dl>
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Localizer["Group"]:
+        </dt>
+        <dd class="col-sm-10">
+            @ViewBag.GroupName
+        </dd>
+    </dl>
+
+    <form asp-action="DetachStudentFromGroup">
+        <div class="form-group">
+            <input asp-for="StudentId" type="hidden" class="form-control" />
+        </div>
+        <input type="submit" value="@Localizer["Detach"]" class="btn btn-danger" /> |
+        <a asp-action="Index">@Localizer["Back"]</a>
+    </form>
+</div>

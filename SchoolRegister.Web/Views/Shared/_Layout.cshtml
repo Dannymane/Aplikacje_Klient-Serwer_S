@@ -25,8 +25,12 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Subject"
                                asp-action="Index">Subjects</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Group" 
+                                asp-action="Index">Groups</a>
+                            </li>
                         }
-                        @if (User.IsInRole("Teacher") || User.IsInRole("Admin") || User.IsInRole("Student"))
+                        @if (User.IsInRole("Teacher") || User.IsInRole("Admin") || User.IsInRole("Student") || User.IsInRole("Parent"))
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Student"

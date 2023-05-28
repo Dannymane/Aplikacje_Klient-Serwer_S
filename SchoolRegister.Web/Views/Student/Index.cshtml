@@ -40,7 +40,7 @@
                 @Html.DisplayFor(modelItem => item.GroupName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.GroupId)
+                    @Html.DisplayFor(modelItem => item.GroupId)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.FirstName)
@@ -56,11 +56,20 @@
             </td>
            
             <td>
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
                     @if (User.IsInRole("Teacher"))
                     {
                         <a asp-action="AddGradeToStudent" asp-route-id="@item.Id">Add grade</a> 
                     }
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                    @if (User.IsInRole("Teacher") || User.IsInRole("Student") || User.IsInRole("Parent"))
+                    {
+                        <a asp-action="GetGradesReport" asp-route-id="@item.Id">Grades</a>
+                    }
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a asp-action="AttachStudentToGroup" asp-route-id="@item.Id">Attach to group</a>
+                        <a asp-action="DetachStudentFromGroup" asp-route-id="@item.Id">Detach from group</a>
+                    }
             </td>
         </tr>
 }

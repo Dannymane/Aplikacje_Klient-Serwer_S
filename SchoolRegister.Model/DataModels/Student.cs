@@ -10,7 +10,7 @@ namespace SchoolRegister.Model.DataModels
 {
     public class Student : User
     {
-        public virtual Group Group { get; set; }
+        public virtual Group? Group { get; set; }
         public int? GroupId { get; set; }
         public virtual IList<Grade> Grades { get; set; } //here can be  pasted any collection which implement IList
         // but this collections can call methods only from IList interface

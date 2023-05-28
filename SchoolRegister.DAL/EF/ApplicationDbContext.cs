@@ -45,11 +45,10 @@ namespace SchoolRegister.DAL.EF
                 .Property(g => g.Name)
                 .IsRequired();
 
-            modelBuilder.Entity<Group>() 
+            modelBuilder.Entity<Group>()
                 .HasMany(g => g.Students)
                 .WithOne(s => s.Group)
-                .HasForeignKey(x => x.GroupId)
-                .IsRequired();
+                .HasForeignKey(x => x.GroupId);
 
             modelBuilder.Entity<SubjectGroup>()
                 .HasKey(sg => new { sg.GroupId, sg.SubjectId });

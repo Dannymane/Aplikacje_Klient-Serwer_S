@@ -55,6 +55,7 @@ namespace SchoolRegister.Services.ConcreteServices
                     throw new ArgumentNullException("View model parameter is null");
 
                 var studentEntity = await DbContext.Users.OfType<Student>().FirstOrDefaultAsync(s => s.Id == attachStudentToGroupVm.StudentId);
+                
                 if (studentEntity == null)
                     throw new KeyNotFoundException($"There is no student with id: {attachStudentToGroupVm.StudentId}");
 
@@ -86,13 +87,15 @@ namespace SchoolRegister.Services.ConcreteServices
                 if (studentEntity == null)
                     throw new KeyNotFoundException($"There is no student with id: {detachStudentFromGroupVm.StudentId}");
 
-                var groupEntity = await DbContext.Groups.FirstOrDefaultAsync(g => g.Id == detachStudentFromGroupVm.GroupId);
-                if (groupEntity == null)
-                    throw new KeyNotFoundException($"There is no group with id: {detachStudentFromGroupVm.GroupId}");
+                //var groupEntity = await DbContext.Groups.FirstOrDefaultAsync(g => g.Id == detachStudentFromGroupVm.GroupId);
+                //if (groupEntity == null)
+                //    throw new KeyNotFoundException($"There is no group with id: {detachStudentFromGroupVm.GroupId}");
 
-                if (studentEntity.GroupId != detachStudentFromGroupVm.GroupId)
-                    throw new InvalidOperationException("Student is not assigned to this group");
+                //if (studentEntity.GroupId != detachStudentFromGroupVm.GroupId)
+                //    throw new InvalidOperationException("Student is not assigned to this group");
+
                 studentEntity.GroupId = null;
+                studentEntity.Group = null;
                 DbContext.Users.Update(studentEntity);
                 await DbContext.SaveChangesAsync();
 
@@ -262,8 +265,10 @@ namespace SchoolRegister.Services.ConcreteServices
             try
             {
                 var groupEntitiesQuery = DbContext.Groups.AsQueryable();
+
                 if (filterExpression != null)
                     groupEntitiesQuery = groupEntitiesQuery.Where(filterExpression);
+
                 var groupsVms = Mapper.Map<IEnumerable<GroupVm>>(await groupEntitiesQuery.ToListAsync());
 
                 return groupsVms;

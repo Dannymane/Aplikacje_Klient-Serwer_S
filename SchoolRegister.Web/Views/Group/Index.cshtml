@@ -1,0 +1,44 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@model IEnumerable<SchoolRegister.ViewModels.VM.GroupVm>
+
+@{
+    ViewData["Title"] = Localizer["Groups"];
+}
+
+<h2>@ViewData["Title"]</h2>
+@if (User.IsInRole("Admin"))
+{
+    <p>
+        <a asp-action="AddOrEditGroup">@Localizer["New group"]</a>
+    </p>
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                @if (User.IsInRole("Admin"))
+                {
+                    <td>
+                        @Html.ActionLink(Localizer["Edit"].Value, "AddOrEditGroup", new { id = item.Id })
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+<div>
+    <a asp-action="Index" asp-controller="Home">@Localizer["BackToTheHomePage"]</a>
+</div>

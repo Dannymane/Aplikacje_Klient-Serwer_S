@@ -11,10 +11,11 @@ namespace SchoolRegister.Web.Controllers;
 [Authorize(Roles = "Teacher, Admin, Student")]
 public class SubjectController : BaseController
 {
+    private readonly IGroupService _groupService;
     private readonly ISubjectService _subjectService;
     private readonly ITeacherService _teacherService;
     private readonly UserManager<User> _userManager;
-    public SubjectController(ISubjectService subjectService,
+    public SubjectController(IGroupService groupService, ISubjectService subjectService,
     ITeacherService teacherService,
     UserManager<User> userManager,
     IStringLocalizer localizer,
@@ -24,6 +25,7 @@ public class SubjectController : BaseController
         _subjectService = subjectService;
         _teacherService = teacherService;
         _userManager = userManager;
+        _groupService = groupService;
     }
     public async Task<IActionResult> Index()
     {
@@ -73,6 +75,76 @@ public class SubjectController : BaseController
         {
             _subjectService.AddOrUpdateSubject(addOrUpdateSubjectVm);
             return RedirectToAction("Index");
+        }
+        return View();
+    }
+
+    [HttpGet]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> AttachSubjectToGroup(int subjectId)
+    {
+        var groupVms = await _groupService.GetGroupsAsync(g => g.SubjectGroups.All(sg => sg.SubjectId != subjectId));
+        ViewBag.GroupsSelectList = new SelectList(groupVms.Select(g => new
+        {
+            Text = $"{g.Name}",
+            Value = g.Id
+        }), "Value", "Text");
+
+        var subjectVm = _subjectService.GetSubject(s => s.Id == subjectId);
+        ViewBag.SubjectName = subjectVm.Name;
+        ViewBag.ActionType = Localizer["Attach"];
+        ViewBag.ActionName = Localizer["AttachSubjectToGroup"];
+        ViewBag.ActionMethod = "AttachSubjectToGroup";
+
+        var attachDetachSubjectGroupVm = new AttachDetachSubjectGroupVm() { SubjectId = subjectId };
+
+        return View("AttachDetachSubjectToGroup", attachDetachSubjectGroupVm);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> AttachSubjectToGroup(AttachDetachSubjectGroupVm attachDetachSubjectGroupVm)
+    {
+        if (ModelState.IsValid)
+        {
+            await _groupService.AttachSubjectToGroupAsync(attachDetachSubjectGroupVm);
+
+            return RedirectToAction("Index", "Subject");
+        }
+        return View();
+    }
+
+    [HttpGet]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> DetachSubjectToGroup(int subjectId)
+    {
+        var groupVms = await _groupService.GetGroupsAsync(g => g.SubjectGroups.Any(sg => sg.SubjectId == subjectId));
+        ViewBag.GroupsSelectList = new SelectList(groupVms.Select(g => new
+        {
+            Text = $"{g.Name}",
+            Value = g.Id
+        }), "Value", "Text");
+
+        var subjectVm = _subjectService.GetSubject(s => s.Id == subjectId);
+        ViewBag.SubjectName = subjectVm.Name;
+        ViewBag.ActionType = Localizer["Detach"];
+        ViewBag.ActionName = Localizer["DetachSubjectToGroup"];
+        ViewBag.ActionMethod = "DetachSubjectToGroup";
+
+        var attachDetachSubjectGroupVm = new AttachDetachSubjectGroupVm() { SubjectId = subjectId };
+
+        return View("AttachDetachSubjectToGroup", attachDetachSubjectGroupVm);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> DetachSubjectToGroup(AttachDetachSubjectGroupVm attachDetachSubjectGroupVm)
+    {
+        if (ModelState.IsValid)
+        {
+            await _groupService.DetachSubjectFromGroupAsync(attachDetachSubjectGroupVm);
+
+            return RedirectToAction("Index", "Subject");
         }
         return View();
     }
