@@ -12,11 +12,10 @@ namespace SchoolRegister.Model.DataModels
     {
         public virtual Group? Group { get; set; }
         public int? GroupId { get; set; }
-        public virtual IList<Grade> Grades { get; set; } //here can be  pasted any collection which implement IList
-        // but this collections can call methods only from IList interface
+        public virtual IList<Grade> Grades { get; set; } 
         public virtual Parent Parent { get; set; }
         public int? ParentId { get; set; }
-        //public double AverageGrade
+        //public double AverageGradeda
         //{
         //    get { 
         //        double sum = 0;
@@ -71,7 +70,7 @@ namespace SchoolRegister.Model.DataModels
                     }
                 }
                 return dic; 
-                //return Grades.GroupBy(g => g.Subject.Name).ToDictionary(g => g.Key, g => g.Select(x => x.GradeValue).ToList());
+               //  return Grades.GroupBy(g => g.Subject.Name).ToDictionary(g => g.Key, g => g.Select(x => x.GradeValue).ToList());
             }
 
         }

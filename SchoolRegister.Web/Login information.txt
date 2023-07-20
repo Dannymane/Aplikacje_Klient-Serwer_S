@@ -1,0 +1,6 @@
+﻿--PASSWORD FOR ALL USERS: User1234
+Examples
+	teacher email: t1@eg.eg
+	student email: s1@eg.eg
+	admin email: a1@eg.eg
+	...
