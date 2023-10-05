@@ -67,7 +67,7 @@ namespace SchoolRegister.Tests.UnitTests
             var gradesReport = _gradeService.GetGradesReportForStudent(getGradesReportForStudent);
             Assert.NotNull(gradesReport);
         }
-        //my custom additional test
+        
         [Fact]
         public void GetGradesReportForStudent_WithNullGetGradesVm_ReturnsBadRequest()
         {
