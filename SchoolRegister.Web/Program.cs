@@ -47,6 +47,9 @@ builder.Services.AddRazorPages()
 .AddViewLocalization()
 .AddDataAnnotationsLocalization();
 
+builder.Logging.SetMinimumLevel(LogLevel.Information); // Sets the minimum log level to Information
+builder.Logging.AddFilter("Microsoft.EntityFrameworkCore.Database.Command", LogLevel.Information);
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
