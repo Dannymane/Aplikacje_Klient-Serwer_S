@@ -30,6 +30,7 @@ builder.Services.AddScoped<IGradeService, GradeService>();
 builder.Services.AddScoped<IGroupService, GroupService>();
 builder.Services.AddScoped<IStudentService, StudentService>();
 builder.Services.AddScoped<ITeacherService, TeacherService>();
+
 var supportedCultures = new[] { "en", "pl-PL" };
 builder.Services.Configure<RequestLocalizationOptions>(options => {
     options.SetDefaultCulture(supportedCultures[0])
@@ -45,6 +46,9 @@ builder.Services.AddRazorPages()
 .AddRazorRuntimeCompilation()
 .AddViewLocalization()
 .AddDataAnnotationsLocalization();
+
+builder.Logging.SetMinimumLevel(LogLevel.Information); // Sets the minimum log level to Information
+builder.Logging.AddFilter("Microsoft.EntityFrameworkCore.Database.Command", LogLevel.Information);
 
 var app = builder.Build();
 
